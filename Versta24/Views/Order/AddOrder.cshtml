@@ -1,0 +1,54 @@
+﻿@model OrderModel
+
+@{
+    ViewData["Title"] = "Создать заказ";
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+}
+
+
+<div class="col-md-5 mx-auto">
+    <h2 class="text-center">@ViewData["Title"]</h2>
+
+    @using (Html.BeginForm("AddOrder", "Order", FormMethod.Post))
+    {
+        @Html.ValidationSummary(false, "", new {@class = "text-danger"})
+        <div class="card-group">
+            <div class="card-body">
+                @Html.TextBoxFor(model => model.FromCity, new {@class = "form-control p-3 my-3", placeholder = "Город отправителя"})
+                @Html.TextBoxFor(model => model.FromAddress, new {@class = "form-control p-3 my-3", placeholder = "Адрес отправителя"})
+                @Html.TextBoxFor(model => model.CargoWeight, new {@class = "form-control p-3 my-3", placeholder = "Вес груза (граммы)"})
+            </div>
+            <div class="card-body">
+                @Html.TextBoxFor(model => model.ToCity, new {@class = "form-control p-3 my-3", placeholder = "Город получателя"})
+                @Html.TextBoxFor(model => model.ToAddress, new {@class = " form-control p-3 my-3", placeholder = "Адрес получателя"})
+                @Html.TextBoxFor(model => model.DatePickupCargo, new {@class = "form-control p-3 my-3", type = "date", placeholder = "Дата забора товара"})
+            </div>
+            <div class="card-body">
+                <input type="submit" value="Добавить" class="btn btn-primary btn-block p-2 mt-3"/>
+                                    <a asp-action="Index" asp-controller="Order" class="btn btn-danger btn-block p-2 mt-3">Отмена</a>
+            </div>
+            
+        </div>
+
+        @*<div>
+            @Html.TextBoxFor(model => model.FromCity, new {@class = "p-3 my-3", placeholder = "Город отправителя"})
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.FromAddress, new {@class = "p-3 my-3", placeholder = "Адрес отправителя"})
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.ToCity, new {@class = "p-3 my-3", placeholder = "Город получателя"})
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.ToAddress, new {@class = " p-3 my-3", placeholder = "Адрес получателя"})
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.CargoWeight, new {@class = " p-3 my-3", placeholder = "Вес груза"})
+        </div>
+        <div>
+            @Html.TextBoxFor(model => model.DatePickupCargo, new {@class = " p-3 my-3", type = "date", placeholder = "Дата забора товара"})
+        </div>*@
+
+        
+    }
+</div>
