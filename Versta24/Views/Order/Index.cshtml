@@ -27,9 +27,10 @@ else
                             <p class="card-text">Вес груза: <small>@order.CargoWeight</small></p>
                             <p class="card-text">Дата забора груза: <small>@order.DatePickupCargo</small></p>
                         </blockquote>
-                        <br />
+                        <br/>
                         <a asp-action="DeleteOrder" asp-controller="Order" asp-route-id="@order.IdCargo" class="btn btn-danger">Удалить заказ</a>
-                        
+                        <a asp-action="EditOrder" asp-controller="Order" asp-route-id="@order.IdCargo" class="btn btn-primary">Редактировать заказ</a>
+
                     </div>
                     <div class="card-footer text-muted">
                         Номер заказа: №@order.IdCargo

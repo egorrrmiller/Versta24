@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Versta24.DataBase;
 using Versta24.Models;
 
@@ -14,29 +15,58 @@ public class OrderController : Controller
     }
 
     [HttpGet]
-    public ActionResult Index()
-        => View(_verstaContext.Order.ToList());
-    
-    [HttpGet]
-    public ActionResult AddOrder() 
-        => View();
-
-    [HttpPost]
-    public ActionResult AddOrder(OrderModel orderModel)
+    public async Task<ActionResult> Index()
     {
-        if (!ModelState.IsValid) return View();
+        return View(_verstaContext.Order.ToList());
+    }
 
-        _verstaContext.Order.Add(orderModel);
-        _verstaContext.SaveChanges();
-        
+    [HttpGet("/order/edit/{id:long}")]
+    public async Task<ActionResult> EditOrder(long id)
+    {
+        var order = await _verstaContext.Order.FirstOrDefaultAsync(prop => prop.IdCargo == id);
+
+        return View(order);
+    }
+
+    [HttpPost("/order/edit/{id:long}")]
+    public async Task<ActionResult> EditOrder(OrderModel orderModel, long id)
+    {
+        orderModel.IdCargo = id;
+        _verstaContext.Order.Update(orderModel);
+        await _verstaContext.SaveChangesAsync();
+
         return RedirectToAction(nameof(Index));
     }
-    
-    public ActionResult DeleteOrder(int id)
+
+    [HttpGet("/order/add")]
+    public async Task<ActionResult> AddOrder()
     {
-        _verstaContext.Order.Remove(new OrderModel { IdCargo = id });
-        _verstaContext.SaveChanges();
-        
+        return View();
+    }
+
+    [HttpPost("/order/add")]
+    public async Task<ActionResult> AddOrder(OrderModel orderModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View();
+        }
+
+        await _verstaContext.Order.AddAsync(orderModel);
+        await _verstaContext.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<ActionResult> DeleteOrder(int id)
+    {
+        _verstaContext.Order.Remove(new OrderModel
+        {
+            IdCargo = id
+        });
+
+        await _verstaContext.SaveChangesAsync();
+
         return RedirectToAction(nameof(Index));
     }
 }
